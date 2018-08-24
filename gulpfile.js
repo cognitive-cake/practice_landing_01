@@ -18,33 +18,39 @@ var concat = require("gulp-concat");
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
-      .pipe(wait(500))
-      .pipe(plumber())
-      .pipe(sass())
-      .pipe(postcss([
-        autoprefixer({browsers: [
+    .pipe(wait(500))
+    .pipe(plumber())
+    .pipe(sass())
+    .pipe(postcss([
+      autoprefixer({
+        browsers: [
           'last 1 version',
           'last 2 Chrome versions',
           'last 2 Firefox versions',
           'last 2 Opera versions',
           'last 2 Edge versions'
-        ]}),
-        mqpacker({
-          sort: true
-        })
-      ]))
-      .pipe(gulp.dest('css'))
-      .pipe(minify())
-      .pipe(rename('style.min.css'))
-      .pipe(gulp.dest('css'))
-      .pipe(server.stream());
+        ]
+      }),
+      mqpacker({
+        sort: true
+      })
+    ]))
+    .pipe(gulp.dest('css'))
+    .pipe(minify())
+    .pipe(rename('style.min.css'))
+    .pipe(gulp.dest('css'))
+    .pipe(server.stream());
 });
 
 gulp.task('images-test', function () {
   return gulp.src('img/raw/**/*.{png,jpg,gif}')
     .pipe(imagemin([
-      imagemin.optipng({ optimizationLevel: 3 }),
-      imagemin.jpegtran({ progressive: true })
+      imagemin.optipng({
+        optimizationLevel: 3
+      }),
+      imagemin.jpegtran({
+        progressive: true
+      })
     ]))
     .pipe(gulp.dest('img/dist'));
 });
